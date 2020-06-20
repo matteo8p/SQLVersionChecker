@@ -5,7 +5,7 @@ const nameToGreet = core.getInput('name');
 
 if(nameToGreet.valueOf() === "Matthew".valueOf())
 {
-  console.log("Hello Matthew!");
+  console.log("Hey there, You submitted Matthew");
 }else
 {
   core.setFailed("Error!");
