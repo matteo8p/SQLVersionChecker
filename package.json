@@ -1,0 +1,24 @@
+{
+  "name": "SQLVersionChecker",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/matteo8p/SQLVersionChecker.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/matteo8p/SQLVersionChecker/issues"
+  },
+  "homepage": "https://github.com/matteo8p/SQLVersionChecker#readme",
+  "dependencies": {
+    "@actions/core": "^1.2.4",
+    "@actions/github": "^3.0.0"
+  }
+}
