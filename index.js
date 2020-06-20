@@ -3,16 +3,10 @@ const github = require('@actions/github');
 const fs = require('fs');
 
 const nameToGreet = core.getInput('name');
+const repo = core.getInput('GITHUB_REPOSITORY');
 
 console.log("Hey there " + nameToGreet);
-
-fs.readdir("./", function(err, items) {
-  console.log(items);
-
-  for (var i=0; i<items.length; i++) {
-    console.log(items[i]);
-  }
-});
+console.log("You are currently in this Depository: " + repo);
 
 
 
