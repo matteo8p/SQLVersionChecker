@@ -19,6 +19,7 @@
   "homepage": "https://github.com/matteo8p/SQLVersionChecker#readme",
   "dependencies": {
     "@actions/core": "^1.2.4",
-    "@actions/github": "^3.0.0"
+    "@actions/github": "^3.0.0",
+    "fs": "0.0.1-security"
   }
 }
