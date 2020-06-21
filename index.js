@@ -7,11 +7,8 @@ const sql_directory = core.getInput('sql_directory');
 const GITHUB_WORKSPACE = process.env.GITHUB_WORKSPACE;
 
 const srcPath = path.join(GITHUB_WORKSPACE, sql_directory);
-console.log(sql_directory);
-console.log(GITHUB_WORKSPACE);
-console.log(srcPath);
 
-fs.readdir(GITHUB_WORKSPACE, function (err, files) {
+fs.readdir(sql_directory, function (err, files) {
   //handling error
   if (err) {
     return console.log('Unable to scan directory: ' + err);
