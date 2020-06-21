@@ -3,19 +3,16 @@ const github = require('@actions/github');
 const path = require('path');
 const fs = require('fs');
 
+const sql_directory = core.getInput('sql_directory');
+const GITHUB_WORKSPACE = process.env.GITHUB_WORKSPACE;
 
-function main()
-{
-  const sql_directory = core.getInput('sql_directory');
-  const GITHUB_WORKSPACE = process.env.GITHUB_WORKSPACE;
+const srcPath = path.join(GITHUB_WORKSPACE, sql_directory);
+console.log(sql_directory);
+console.log(GITHUB_WORKSPACE);
+console.log(srcPath);
 
-  const srcPath = path.join(GITHUB_WORKSPACE, sql_directory);
-  console.log(sql_directory);
-  console.log(GITHUB_WORKSPACE);
-  console.log(srcPath);
-}
+core.info('Finished Running');
 
-main();
 
 
 
