@@ -11,6 +11,18 @@ console.log(sql_directory);
 console.log(GITHUB_WORKSPACE);
 console.log(srcPath);
 
+fs.readdir(srcPath, function (err, files) {
+  //handling error
+  if (err) {
+    return console.log('Unable to scan directory: ' + err);
+  }
+  //listing all files using forEach
+  files.forEach(function (file)
+  {
+    console.log(file);
+  });
+});
+
 core.info('Finished Running');
 
 
