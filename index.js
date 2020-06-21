@@ -11,7 +11,7 @@ console.log(sql_directory);
 console.log(GITHUB_WORKSPACE);
 console.log(srcPath);
 
-fs.readdir(srcPath, function (err, files) {
+fs.readdir(GITHUB_WORKSPACE, function (err, files) {
   //handling error
   if (err) {
     return console.log('Unable to scan directory: ' + err);
