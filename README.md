@@ -1,5 +1,29 @@
 # SQLVersionChecker
 ## Installation
-- Copy the components of .github/workflows/dummyworkflow.yml into a new GitHub action within Iris 
-      
-- Make sure that the directory location points to the correct sql migration folder and year is correct 
+
+      - name: Checkout Master Branch
+        uses: actions/checkout@v2
+        with:
+          ref: master
+
+      - name: Store Master Branch Variables
+        id: mastersource
+        run: |
+          cd ./Common/src/main/sql/iris/migration/2020/2020
+          echo ::set-output name=MASTERSOURCE::$(ls)
+
+      - name: Checkout Current Branch
+        uses: actions/checkout@v2
+
+      - name: Store Current Branch Variables
+        id: currentsource
+        run: |
+          cd ./Common/src/main/sql/iris/migration/2020/2020
+          echo ::set-output name=CURRENTSOURCE::$(ls)
+
+      - name: -- THE ACTUAL TEST --
+        uses: NathanNorman/nnorman-test@v1
+        with:
+          master_sql: ${{ steps.mastersource.outputs.MASTERSOURCE }}
+          current_sql: ${{ steps.currentsource.outputs.CURRENTSOURCE }}
+          year: '2020'
