@@ -1,6 +1,6 @@
-name: 'SQLVersionTest'
-description: 'Check to see SQL Version is okay'
+name: 'SQLTester'
+description: 'Greet someone and record the time'
 
 runs:
   using: 'node12'
-  main: 'index.js'
+  main: 'src/index.js'
