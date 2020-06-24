@@ -3,25 +3,27 @@ const github = require('@actions/github');
 const moment = require('moment');                     //Date check module
 
 //  INSTANCE VARIABLES
-const MASTERSQL = core.getInput("master_sql");
-const CURRENTSQL = core.getInput("current_sql");
-const YEAR = core.getInput("year");
+const DIRECTORY = core.getInput("directory");                       //    ./Iris/Common/src/main/sql/iris/migration
+const NEWFILES = core.getInput("newfiles");
 
-var master_list = MASTERSQL.split(' ');
-var current_list = CURRENTSQL.split(' ');
+var newFiles = NEWFILES.split(' ');  // Unfiltered Array of new files added.
 
 
 //INPUT: none
 //OUTPUT: Array of SQL files
-//Scans for new sql files and returns them.
-function newSQLFiles()
+//Scans for new sql files and returns a filtered list of .sql specific files
+function scanSQLFiles()
 {
   var newSQL = [];
-  for(var i = 0; i < current_list.length; i++)
+  for(var i = 0; i < newFiles.length; i++)
   {
-    if(!master_list.includes(current_list[i]))
+    var newFile = newFiles[i];        // Iris/Common/src/main/sql/iris/migration/2020/v2020.10.05_01__Correct.sql
+    core.info("Scan: " + newFile);
+
+    if(newFile.includes(DIRECTORY))
     {
-      newSQL.push(current_list[i]);
+      var split = newFile.split('/');
+      newSQL.push(split[split.length - 1]);     //      v2020.10.05_01__Correct.sql
     }
   }
   core.info(newSQL.length + " new sql files detected: " + newSQL.toString());
@@ -117,12 +119,13 @@ function runTests(newSQL)                               //Runs tests in sequence
 
 function init()                                         //Initiate test
 {
-  NEW_SECTION("Scanning for new sql files");
-  var newSQL = newSQLFiles();                           //Array of new sql files
+  NEW_SECTION("Filtering for new sql files");
+  var newSQL = scanSQLFiles();                                       //Array of new sql files
 
   if(newSQL.length == 0)
-    TERMINATE_SUCCESS("No changes made to sql files");  //No new sql files added. Terminate check as successful
+    TERMINATE_SUCCESS("No new SQL files were added");  //No new sql files added. Terminate check as successful
 
+  TERMINATE_SUCCESS("Test Run");
   runTests(newSQL);                                     //If there are sql files added, run the other tests
 }
 init();                                                 //call initialize method
