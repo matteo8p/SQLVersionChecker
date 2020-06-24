@@ -1,5 +1,5 @@
-name: 'SQLTester'
-description: 'Greet someone and record the time'
+name: 'SQLVersionChecker'
+description: 'Check if sql files meet required criteria'
 
 runs:
   using: 'node12'

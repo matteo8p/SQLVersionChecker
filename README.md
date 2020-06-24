@@ -54,4 +54,3 @@ Create a GitHub Action. Set the .yml file to have the following properties below
               current_sql: ${{ steps.currentsource.outputs.CURRENTSOURCE }}
               year: '2020' 
 
-
