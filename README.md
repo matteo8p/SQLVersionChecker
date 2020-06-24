@@ -22,7 +22,7 @@
           echo ::set-output name=CURRENTSOURCE::$(ls)
 
       - name: -- THE ACTUAL TEST --
-        uses: NathanNorman/nnorman-test@v1
+        uses: matteo8p/SQLVersionChecker@v1
         with:
           master_sql: ${{ steps.mastersource.outputs.MASTERSOURCE }}
           current_sql: ${{ steps.currentsource.outputs.CURRENTSOURCE }}
