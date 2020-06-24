@@ -3,6 +3,12 @@
   "version": "1.0.0",
   "description": "- name: Checkout Master Branch         uses: actions/checkout@v2         with:           ref: master",
   "main": "index.js",
+  "dependencies": {
+    "@actions/core": "^1.2.4",
+    "@actions/github": "^3.0.0",
+    "webpack-dev-server": "^3.11.0"
+  },
+  "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -16,13 +22,5 @@
   "bugs": {
     "url": "https://github.com/matteo8p/SQLVersionChecker/issues"
   },
-  "homepage": "https://github.com/matteo8p/SQLVersionChecker#readme",
-  "dependencies": {
-    "@actions/core": "^1.2.4",
-    "@actions/github": "^3.0.0",
-    "fs": "0.0.1-security",
-    "path": "^0.12.7",
-    "webpack-dev-server": "^3.11.0"
-  },
-  "devDependencies": {}
+  "homepage": "https://github.com/matteo8p/SQLVersionChecker#readme"
 }
