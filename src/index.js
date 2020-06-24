@@ -1,19 +1,19 @@
 const core = require('@actions/core');
 const github = require('@actions/github');
-const moment = require('moment');                     //Date check module
+const moment = require("moment");
 
-//  INSTANCE VARIABLES
-const MASTERSQL = core.getInput("master_sql");
-const CURRENTSQL = core.getInput("current_sql");
+//  INSTANCE VARIABLESss
+const MASTERSQL = core.getInput("master_sql");        //Pulls String of sql files from master
+const CURRENTSQL = core.getInput("current_sql");      //Pulls String of sql files from current branch
 const YEAR = core.getInput("year");
 
-var master_list = MASTERSQL.split(' ');
-var current_list = CURRENTSQL.split(' ');
+const master_list = MASTERSQL.split(' ');          //Divide MASTERSQL into Array
+const current_list = CURRENTSQL.split(' ');        //Divide CURRENTSQL into Array
 
 
-//INPUT: none
-//OUTPUT: Array of SQL files
-//Scans for new sql files and returns them.
+// INPUT: NONE
+// OUTPUT: Array of new sql files
+// Compares current_list to master_list to generate array of new sql filess
 function newSQLFiles()
 {
   var newSQL = [];
@@ -24,70 +24,46 @@ function newSQLFiles()
       newSQL.push(current_list[i]);
     }
   }
-  core.info(newSQL.length + " new sql files detected: " + newSQL.toString());
-  core.info("Scan Success!");
+  core.info("New sql files detected: " + newSQL.toString());
   return newSQL;
 }
 
-//INPUT: Array of new sql files
-//OUTPUT: none
-//Tests file format using regex
+//INPUT: Array of new Files
+//OUTPUT: NA
+//File format test. Check if every file in newSQL matches the regex format.
 function fileFormatTest(newSQL)
 {
   NEW_SECTION("Initiate Regex File Format Test");
 
-  const regex = RegExp("v" + YEAR + ".[0-1][0-9].[0-3][0-9]_\\d{2}__.*");
+  const regex = RegExp("v" + YEAR + ".[0-1][1-9].[0-3][0-9]_\\d{2}__.*");
   for(var i = 0; i < newSQL.length; i++)
   {
     core.info("Checking " + newSQL[i]);
     if(!regex.test(newSQL[i]))
     {
-      TERMINATE_FAIL(newSQL[i] + " fails to match format. Format must be in format vYYYY.MM.DD_xx__Description. Make sure the configurations in your .yml project file are correct too.");
+      TERMINATE_FAIL(newSQL[i] + " fails to match format. Format must be in format vYYYY.MM.DD.xx__Description. Make sure the configurations in your .yml project file is correct too.");
     }
   }
   core.info("Regex File Format Test Successful!");
 }
 
-//INPUT: Array of new SQL files
+//INPUT: Date format in MM/DD/YYYY
+//OUTPUT: True/False if day is on a blackout day
+function isBlackoutDay(date)
+{
+
+}
+
+//INPUT: Array of SQL files
 //OUTPUT: None
 //Checks if every file has a valid date.
 function validDateTest(newSQL)
 {
-  NEW_SECTION("Initiate Date Validation Test");
-  for(var i = 0; i < newSQL.length; i++)
-  {
-    core.info("Validating date for " + newSQL[i]);
-    const split = newSQL[i].substring(0, 11).split(".");
-    const month = split[1];
-    const day = split[2];
 
-    if(!moment(month + "/" + day + "/" + YEAR, "MM/DD/YYYY", true).isValid())
-      TERMINATE_FAIL(newSQL[i] + " has error. " + month + "/" + day + "/" + YEAR + " is not a valid date");
-  }
-  core.info("Date validation test is successful!");
 }
 
-//INPUT: Array of new SQL files
-//OUTPUT: none
-//Checks that file versions are in correct order relative to master
-function versionTest(newSQL)
-{
-  NEW_SECTION("Checking if new sql files are in order");
 
-  for(var i = 0; i < newSQL.length; i++)
-  {
-    if(newSQL[i].split("__")[0].localeCompare(master_list[master_list.length - 1].split("__")[0]) <= 0)
-    {
-      TERMINATE_FAIL(newSQL[i] + " has an outdated date or version. File versions must be in order and newer than previous versions in master.");
-    }else
-    {
-      master_list.push(newSQL[i]);
-    }
-  }
-  core.info("Version checking is complete!".green);
-}
-
-//  PROGRAM LOGIC FLOW METHODS
+//  PROGRAM FLOW METHODS
 function TERMINATE_FAIL(message)
 {
   core.setFailed("FAILED: " + message);
@@ -96,7 +72,7 @@ function TERMINATE_FAIL(message)
 
 function TERMINATE_SUCCESS(message)
 {
-  core.info("SUCCESS: " + message);
+  core.info("TESTS SUCCESS: " + message);
   process.exit(0);
 }
 
@@ -106,12 +82,10 @@ function NEW_SECTION(message)
   core.info(message);
 }
 
-//  INITIATION METHODS
+//  INITIATION METHODSs
 function runTests(newSQL)                               //Runs tests in sequence
 {
   fileFormatTest(newSQL);                               //Run file format test
-  validDateTest(newSQL);                                //Run valid date test
-  versionTest(newSQL);                                  //Run version test
   TERMINATE_SUCCESS("Have a good rest of your day!");   //When all tests have passed.
 }
 
