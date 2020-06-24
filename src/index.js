@@ -14,6 +14,7 @@ var newFiles = NEWFILES.split(' ');  // Unfiltered Array of new files added.
 //Scans for new sql files and returns a filtered list of .sql specific files
 function scanSQLFiles()
 {
+  core.info(newFile.toString());
   var newSQL = [];
   for(var i = 0; i < newFiles.length; i++)
   {
