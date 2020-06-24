@@ -1,26 +1,27 @@
 {
-  "name": "SQLVersionChecker",
+  "name": "nnorman-test",
   "version": "1.0.0",
-  "description": "- name: Checkout Master Branch         uses: actions/checkout@v2         with:           ref: master",
-  "main": "index.js",
-  "dependencies": {
-    "@actions/core": "^1.2.4",
-    "@actions/github": "^3.0.0",
-    "webpack-dev-server": "^3.11.0"
-  },
-  "devDependencies": {},
+  "description": "",
+  "main": "src/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/matteo8p/SQLVersionChecker.git"
+    "url": "git+https://github.com/NathanNorman/nnorman-test.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/matteo8p/SQLVersionChecker/issues"
+    "url": "https://github.com/NathanNorman/nnorman-test/issues"
   },
-  "homepage": "https://github.com/matteo8p/SQLVersionChecker#readme"
+  "homepage": "https://github.com/NathanNorman/nnorman-test#readme",
+  "dependencies": {
+    "@actions/core": "^1.2.4",
+    "@actions/github": "^3.0.0",
+    "colors": "^1.4.0",
+    "moment": "^2.27.0"
+  },
+  "devDependencies": {}
 }
