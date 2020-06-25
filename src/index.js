@@ -35,11 +35,6 @@ function processSQLInput(INPUT)
       fileMap.set(year, sqlfiles);
     }
   }
-  for(var key of fileMap.keys())
-  {
-    console.log("Year: " + key);
-    console.log(fileMap.get(key));
-  }
   return fileMap;
 }
 
@@ -65,7 +60,7 @@ function newSQL(masterSQLMap, currentSQLMap)
 
   for(var key of filemap)
   {
-    core.info(filemap.get(key).length + " new sql files detected in folder " + key);
+    core.info(key);
     core.info(filemap.get(key));
   }
 }
