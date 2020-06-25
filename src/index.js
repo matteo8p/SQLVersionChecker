@@ -6,12 +6,13 @@ const moment = require('moment');                     //Date check module
 const MASTERSQL = core.getInput('mastersql');
 const CURRENTSQL = core.getInput('currentsql');
 
-//INPUT: none
-//OUTPUT: Array of SQL files
-//Scans for new sql files and returns a filtered list of .sql specific files
+//  ------------------ INPUT PROCESSING METHODS ------------------
+
+//INPUT: One of the SQL instance variables
+//OUTPUT: Map that maps sql files to the folder that contains itself
+//Parses through the instance variable and stores information in a map. Only processes folders that are years.
 function processSQLInput(INPUT)
 {
-  NEW_SECTION("Generating Map of SQL files");
   let fileMap = new Map();                           //Maps the sql files to the folder that contains it.
   const isYear = RegExp("\\d{4}:");           //Regex to check that folder is a valid year
 
@@ -42,11 +43,35 @@ function processSQLInput(INPUT)
   return fileMap;
 }
 
-function filterNewSQL()
+//INPUT: Two Maps of sql files
+//OUTPUT: Filtered map of new sql files
+//Scans through the master and current maps to search for new sql files
+function newSQL(masterSQLMap, currentSQLMap)
 {
+  let filemap = new Map();
+  for(var key of currentSQLMap.keys())          // Iterate through every folder
+  {
+     var mastersqlfiles = masterSQLMap.get(key);
+     var currentsqlfiles = currentSQLMap.get(key);
+     var newsqlfiles = [];
 
+     for(var file in currentSQLMap)
+     {
+       if(!mastersqlfiles.includes(file))
+         newsqlfiles.push(file);
+     }
+     filemap.set(key, newsqlfiles);
+  }
+
+  for(var key of filemap)
+  {
+    core.info(filemap.get(key).length + " new sql files detected in folder " + key);
+    core.info(filemap.get(key));
+  }
 }
+//  ------------------ END INPUT PROCESSING METHODS ------------------
 
+//  ------------------ TEST METHODS ------------------
 //INPUT: Array of new sql files
 //OUTPUT: none
 //Tests file format using regex
@@ -136,8 +161,15 @@ function runTests(newSQL)                               //Runs tests in sequence
 function init()                                         //Initiate test
 {
   NEW_SECTION("Initiate SQLVersionChecker");
-  masterSQLMap = processSQLInput(MASTERSQL);
 
+  //Parse inputs.
+  NEW_SECTION("Generating Map of Master Branch SQL files")
+  masterSQLMap = processSQLInput(MASTERSQL);
+  NEW_SECTION("Generating Map of Current Branch SQL files");
+  currentSQLMap = processSQLInput(CURRENTSQL);
+
+  NEW_SECTION("Scanning for new SQL files");
+  newSQLMap = newSQL(masterSQLMap, currentSQLMap);
   // var newSQL = scanSQLFiles();                                       //Array of new sql files
   //
   // if(newSQL.length == 0)
