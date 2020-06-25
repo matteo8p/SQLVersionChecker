@@ -158,7 +158,10 @@ function versionTest(masterSQLMap, newSQLMap)
     for(var i = 0; i < newfiles.length; i++)                  //iterate throught sql file in the directory
     {
       console.log("Checking " + newfiles[i]);
-      if(newfiles[i].split("__")[0].localeCompare(masterfiles[masterfiles.length - 1].split("__")[0]) <= 0)
+      var newFileVersion = newfiles[i].split("__")[0];        //Version tag of new sql file. ie. v2020.01.01_01
+      var latestMasterFileVersion = masterfiles[masterfiles.length - 1].split("__")[0]; //Version tag of latest master sql file.
+
+      if(newFileVersion.localeCompare(latestMasterFileVersion) <= 0)
       {
         TERMINATE_FAIL(newfiles[i] + " has an outdated date or version. File versions must be in order and newer than previous versions in master.");
       }else
