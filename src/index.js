@@ -79,6 +79,9 @@ function newSQL(masterSQLMap, currentSQLMap)
 
 //  ------------------ TEST METHODS ------------------
 
+//INPUT: Map of new SQL files
+//OUTPUT: none
+//Tests whether new sql files were added or not.
 function newSQLFileExistsTest(newSQLMap)
 {
   var newSQLFileExists = false;
@@ -89,22 +92,24 @@ function newSQLFileExistsTest(newSQLMap)
       newSQLFileExists = true;
   }
   if(!newSQLFileExists)
-    TERMINATE_SUCCESS("No new files are detected")
+    TERMINATE_SUCCESS("No new sql files detected");
 }
+
 //INPUT: Array of new sql files
 //OUTPUT: none
 //Tests file format using regex
-function fileFormatTest(newSQL)
+function fileFormatTest(newSQLMap)
 {
-  NEW_SECTION("Initiate Regex File Format Test");
-
-  const regex = RegExp("v" + YEAR + ".[0-1][0-9].[0-3][0-9]_\\d{2}__.*");
-  for(var i = 0; i < newSQL.length; i++)
+  for(var key of newSQLMap.keys())
   {
-    core.info("Checking " + newSQL[i]);
-    if(!regex.test(newSQL[i]))
+    var regex = RegExp("v" + key + ".[0-1][0-9].[0-3][0-9]_\\d{2}__.*");    //Generate new regex based on year
+    var files = newSQLMap.get(key);
+
+    for(var i = 0; i < files.length; i++)
     {
-      TERMINATE_FAIL(newSQL[i] + " fails to match format. Format must be in format vYYYY.MM.DD_xx__Description. Make sure the configurations in your .yml project file are correct too.");
+      core.info("Checking " + files[i]);
+      if(!regex.test(files[i]))
+        TERMINATE_FAIL(files[i] + " fails to match format. Format must be in format vYYYY.MM.DD_xx__Description. Also, The file's year must match the folder's year.");
     }
   }
   core.info("Regex File Format Test Successful!");
@@ -169,13 +174,6 @@ function NEW_SECTION(message)
 }
 
 //  INITIATION METHODS
-function runTests(newSQL)                               //Runs tests in sequence
-{
-  fileFormatTest(newSQL);                               //Run file format test
-  validDateTest(newSQL);                                //Run valid date test
-  versionTest(newSQL);                                  //Run version test
-  TERMINATE_SUCCESS("Have a good rest of your day!");   //When all tests have passed.
-}
 
 function init()                                         //Initiate test
 {
@@ -190,7 +188,12 @@ function init()                                         //Initiate test
   var newSQLMap = newSQL(masterSQLMap, currentSQLMap);
 
   //Tests
+
+  //New SQL files Test
   NEW_SECTION("Running New SQL Files Test");
   newSQLFileExistsTest(newSQLMap);
+  //File Format Regex Test
+  NEW_SECTION("Initiate Regex File Format Test");
+  fileFormatTest(newSQLMap);
 }
 init();                                                 //call initialize method
