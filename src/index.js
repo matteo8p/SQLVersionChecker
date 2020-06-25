@@ -43,27 +43,26 @@ function processSQLInput(INPUT)
 //Scans through the master and current maps to search for new sql files
 function newSQL(masterSQLMap, currentSQLMap)
 {
-  let filemap = new Map();
+  let newSQLMap = new Map();
   for(var key of currentSQLMap.keys())          // Iterate through every folder
   {
      var mastersqlfilesArray = masterSQLMap.get(key);
      var currentsqlfilesArray = currentSQLMap.get(key);
      var newsqlfilesArray = [];
 
-     for(var file in currentsqlfilesArray)
+     for(var i = 0; i < currentsqlfilesArray.length; i++)
      {
-       if(!mastersqlfilesArray.includes(file))
-         newsqlfilesArray.push(file);
+       if(!mastersqlfilesArray.includes(currentsqlfilesArray[i]))
+         newsqlfilesArray.push(currentsqlfilesArray[i]);
      }
-     filemap.set(key, newsqlfilesArray);
+     newSQLMap.set(key, newsqlfilesArray);
+  }
+  for(var key of newSQLMap)
+  {
+    console.log(newSQLMap);
   }
 
-  for(var key of filemap)
-  {
-    console.log("Folder: " + key);
-    console.log(filemap);
-  }
-  return filemap;
+  return newSQLMap;
 }
 //  ------------------ END INPUT PROCESSING METHODS ------------------
 
