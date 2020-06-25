@@ -60,7 +60,7 @@ function newSQL(masterSQLMap, currentSQLMap)
 
   for(var key of filemap)
   {
-    core.info(filemap.get(key).length + " new sql files detected in folder " + key);
+    core.info("Folder: " + key);
     core.info(filemap.get(key));
   }
   return filemap;
