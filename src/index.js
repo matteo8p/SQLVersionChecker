@@ -157,15 +157,17 @@ function runTests(newSQL)                               //Runs tests in sequence
 function init()                                         //Initiate test
 {
   NEW_SECTION("Initiate SQLVersionChecker");
-
   //Parse inputs.
   NEW_SECTION("Generating Map of Master Branch SQL files")
   var masterSQLMap = processSQLInput(MASTERSQL);
   NEW_SECTION("Generating Map of Current Branch SQL files");
   var currentSQLMap = processSQLInput(CURRENTSQL);
 
-  NEW_SECTION("Scanning for new SQL files");
-  newSQLMap = newSQL(masterSQLMap, currentSQLMap);
+  console.log(masterSQLMap);
+  console.log(currentSQLMap);
+
+  // NEW_SECTION("Scanning for new SQL files");
+  // newSQLMap = newSQL(masterSQLMap, currentSQLMap);
   // var newSQL = scanSQLFiles();                                       //Array of new sql files
   //
   // if(newSQL.length == 0)
