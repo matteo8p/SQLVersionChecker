@@ -132,7 +132,7 @@ function runTests(newSQL)                               //Runs tests in sequence
 
 function init()                                         //Initiate test
 {
-``NEW_SECTION("Initiate SQLVersionChecker");
+  NEW_SECTION("Initiate SQLVersionChecker");
   masterSQLMap = processSQLInput(MASTERSQL);
 
   // var newSQL = scanSQLFiles();                                       //Array of new sql files
