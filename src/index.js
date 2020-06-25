@@ -44,24 +44,33 @@ function processSQLInput(INPUT)
 function newSQL(masterSQLMap, currentSQLMap)
 {
   let newSQLMap = new Map();
+
+  for(var key of masterSQLMap.keys())
+  {
+    if(!currentSQLMap.has(key))
+      TERMINATE_FAIL("Missing folder directory: " + key);
+  }
+
   for(var key of currentSQLMap.keys())          // Iterate through every folder
   {
-     var mastersqlfilesArray = masterSQLMap.get(key);
-     var currentsqlfilesArray = currentSQLMap.get(key);
-     var newsqlfilesArray = [];
-
-     for(var i = 0; i < currentsqlfilesArray.length; i++)
+     if(!masterSQLMap.has(key))                 // If new folder directory is created
      {
-       if(!mastersqlfilesArray.includes(currentsqlfilesArray[i]))
-         newsqlfilesArray.push(currentsqlfilesArray[i]);
-     }
-     newSQLMap.set(key, newsqlfilesArray);
-  }
-  for(var key of newSQLMap)
-  {
-    console.log(newSQLMap);
-  }
+       newSQLMap.set(key, currentSQLMap.get(key));
+     }else                                      // Regular check
+     {
+       var currentsqlfilesArray = currentSQLMap.get(key);
+       var mastersqlfilesArray = masterSQLMap.get(key);
+       var newsqlfilesArray = [];
 
+       for(var i = 0; i < currentsqlfilesArray.length; i++)
+       {
+         if(!mastersqlfilesArray.includes(currentsqlfilesArray[i]))
+           newsqlfilesArray.push(currentsqlfilesArray[i]);
+       }
+       newSQLMap.set(key, newsqlfilesArray);
+     }
+  }
+  console.log(newSQLMap);
   return newSQLMap;
 }
 //  ------------------ END INPUT PROCESSING METHODS ------------------
