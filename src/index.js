@@ -11,7 +11,7 @@ const CURRENTSQL = core.getInput('currentsql');
 //Scans for new sql files and returns a filtered list of .sql specific files
 function processSQLInput(INPUT)
 {
-  NEW_SECTION("Generating Map");
+  NEW_SECTION("Generating Map of SQL files");
   let fileMap = new Map();                           //Maps the sql files to the folder that contains it.
   const isYear = RegExp("\\d{4}:");           //Regex to check that folder is a valid year
 
@@ -20,20 +20,23 @@ function processSQLInput(INPUT)
   for(var i = 1; i < split_section.length; i++)      //Process each folder that contains the sql files
   {
     var files = split_section[i].split(' ');
-    if(isYear.test(files[0]) && files.length > 1)         //Check that the folder matches a date and the folder isn't empty
+    if(isYear.test(files[0]))         //Check that the folder matches a date and the folder isn't empty
     {
       var year = files[0].substring(0, 4);
       var sqlfiles = [];
-      for(var j = 1; j < files.length; j++)
+      if(files.length > 1)
       {
-        sqlfiles.push(files[i]);
+        for(var j = 1; j < files.length; j++)
+        {
+          sqlfiles.push(files[j]);
+        }
       }
       fileMap.set(year, sqlfiles);
     }
   }
   for(var key of fileMap.keys())
   {
-    console.log("Year" + key);
+    console.log("Year: " + key);
     console.log(fileMap.get(key));
   }
   return fileMap;
