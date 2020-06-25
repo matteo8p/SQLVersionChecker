@@ -216,7 +216,7 @@ function init()                                         //Initiate test
   validDateTest(newSQLMap);
   //Version Testing
   NEW_SECTION("Checking if new sql files are in order");
-  versionTest(masterSQLMap, newSQLMap));
+  versionTest(masterSQLMap, newSQLMap);
 
   TERMINATE_SUCCESS("All tests passed. Have a nice day!");
 }
