@@ -14,11 +14,11 @@ function processSQLInput(INPUT)
   let fileMap = new Map();                           //Maps the sql files to the folder that contains it.
   const isYear = RegExp("\\d{4}:");           //Regex to check that folder is a valid year
 
-  let split_section = INPUT.split("./");
+  let split_section = INPUT.split('./');
 
   for(var i = 1; i < split_section.length; i++)      //Process each folder that contains the sql files
   {
-    var files = split_section[i].split(" ");
+    var files = split_section[i].split(' ');
     if(isYear.test(files[0]) && files.length > 1)         //Check that the folder matches a date and the folder isn't empty
     {
       var year = files[0].substring(0, 4);
@@ -129,11 +129,8 @@ function init()                                         //Initiate test
 
   NEW_SECTION("Filtering for new sql files");
   masterSQLMap = processSQLInput(MASTERSQL);
-  for(var key in masterSQLMap.keys())
-  {
-    core.info(key);
-    core.info(masterSQLMap.get(key));
-  }
+  console.log("KEYS: ");
+  console.log(masterSQLMap.keys());
   // var newSQL = scanSQLFiles();                                       //Array of new sql files
   //
   // if(newSQL.length == 0)
