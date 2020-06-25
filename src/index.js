@@ -49,7 +49,7 @@ function newSQL(masterSQLMap, currentSQLMap)
   for(var key of masterSQLMap.keys())             //Checks to see if a file directory was deleted. Directories shouldn't be deleted.
   {
     if(!currentSQLMap.has(key))
-      TERMINATE_FAIL("Missing folder directory: " + key);
+      TERMINATE_FAIL("Missing folder directory: " + key + ". A this directory is in the master branch, but now missing in your local branch. You cannot remove sql directories.");
   }
 
   for(var key of currentSQLMap.keys())          // Iterate through every folder
@@ -210,7 +210,6 @@ function init()                                         //Initiate test
   var newSQLMap = newSQL(masterSQLMap, currentSQLMap);
 
   //Tests
-
   //New SQL files Test
   NEW_SECTION("Running New SQL Files Test");
   newSQLFileExistsTest(newSQLMap);
@@ -221,7 +220,7 @@ function init()                                         //Initiate test
   NEW_SECTION("Initiate Date Validation Test");
   validDateTest(newSQLMap);
   //Version Testing
-  NEW_SECTION("Checking if new sql files are in order");
+  NEW_SECTION("Checking if new sql files are in alphanumeric order by version tag. (version tags are vYYYY.MM.DD_XX)");
   versionTest(masterSQLMap, newSQLMap);
 
   TERMINATE_SUCCESS("All tests passed. Have a nice day!");
