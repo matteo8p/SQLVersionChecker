@@ -60,8 +60,8 @@ function newSQL(masterSQLMap, currentSQLMap)
 
   for(var key of filemap)
   {
-    core.info("Folder: " + key);
-    core.info(filemap.get(key));
+    console.log("Folder: " + key);
+    console.log(filemap);
   }
   return filemap;
 }
@@ -163,11 +163,8 @@ function init()                                         //Initiate test
   NEW_SECTION("Generating Map of Current Branch SQL files");
   var currentSQLMap = processSQLInput(CURRENTSQL);
 
-  console.log(masterSQLMap);
-  console.log(currentSQLMap);
-
-  // NEW_SECTION("Scanning for new SQL files");
-  // newSQLMap = newSQL(masterSQLMap, currentSQLMap);
+  NEW_SECTION("Scanning for new SQL files");
+  var newSQLMap = newSQL(masterSQLMap, currentSQLMap);
   // var newSQL = scanSQLFiles();                                       //Array of new sql files
   //
   // if(newSQL.length == 0)
