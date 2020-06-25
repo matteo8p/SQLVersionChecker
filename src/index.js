@@ -11,6 +11,7 @@ const CURRENTSQL = core.getInput('currentsql');
 //Scans for new sql files and returns a filtered list of .sql specific files
 function processSQLInput(INPUT)
 {
+  NEW_SECTION("Generating Map");
   let fileMap = new Map();                           //Maps the sql files to the folder that contains it.
   const isYear = RegExp("\\d{4}:");           //Regex to check that folder is a valid year
 
@@ -29,6 +30,11 @@ function processSQLInput(INPUT)
       }
       fileMap.set(year, sqlfiles);
     }
+  }
+  for(var key in masterSQLMap.keys())
+  {
+    console.log("Year" + key);
+    console.log(masterSQLMap.get(key));
   }
   return fileMap;
 }
@@ -126,14 +132,8 @@ function runTests(newSQL)                               //Runs tests in sequence
 
 function init()                                         //Initiate test
 {
-
-  NEW_SECTION("Filtering for new sql files");
+``NEW_SECTION("Initiate SQLVersionChecker");
   masterSQLMap = processSQLInput(MASTERSQL);
-  for(var key in masterSQLMap.keys())
-  {
-    console.log("Year" + key);
-    console.log(masterSQLMap.get(key));
-  }
 
   // var newSQL = scanSQLFiles();                                       //Array of new sql files
   //
