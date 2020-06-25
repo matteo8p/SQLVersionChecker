@@ -71,12 +71,26 @@ function newSQL(masterSQLMap, currentSQLMap)
        newSQLMap.set(key, newsqlfilesArray);
      }
   }
+  console.log("New SQL Files Detected: ");
   console.log(newSQLMap);
   return newSQLMap;
 }
 //  ------------------ END INPUT PROCESSING METHODS ------------------
-
+show()
 //  ------------------ TEST METHODS ------------------
+
+function newSQLFileExistsTest(newSQLMap)
+{
+  var newSQLFileExists = false;
+  for(var key of newSQLMap.keys())
+  {
+    var files = newSQLMap.get(key);
+    if(files.length > 0)
+      newSQLFileExists = true;
+  }
+  if(!newSQLFileExists)
+    TERMINATE_SUCCESS("No new files are detected")
+}
 //INPUT: Array of new sql files
 //OUTPUT: none
 //Tests file format using regex
@@ -174,6 +188,8 @@ function init()                                         //Initiate test
 
   NEW_SECTION("Scanning for new SQL files");
   var newSQLMap = newSQL(masterSQLMap, currentSQLMap);
+
+
   // var newSQL = scanSQLFiles();                                       //Array of new sql files
   //
   // if(newSQL.length == 0)
