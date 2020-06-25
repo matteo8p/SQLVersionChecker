@@ -60,7 +60,7 @@ function newSQL(masterSQLMap, currentSQLMap)
 
   for(var key of filemap)
   {
-    core.info(filemap.get(key).length + " new files detected in folder " + key);
+    core.info(filemap.get(key).length + " new sql files detected in folder " + key);
     core.info(filemap.get(key));
   }
   return filemap;
@@ -160,9 +160,9 @@ function init()                                         //Initiate test
 
   //Parse inputs.
   NEW_SECTION("Generating Map of Master Branch SQL files")
-  masterSQLMap = processSQLInput(MASTERSQL);
+  var masterSQLMap = processSQLInput(MASTERSQL);
   NEW_SECTION("Generating Map of Current Branch SQL files");
-  currentSQLMap = processSQLInput(CURRENTSQL);
+  var currentSQLMap = processSQLInput(CURRENTSQL);
 
   NEW_SECTION("Scanning for new SQL files");
   newSQLMap = newSQL(masterSQLMap, currentSQLMap);
