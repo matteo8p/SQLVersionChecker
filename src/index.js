@@ -46,7 +46,7 @@ function newSQL(masterSQLMap, currentSQLMap)
 {
   let newSQLMap = new Map();
 
-  for(var key of masterSQLMap.keys())
+  for(var key of masterSQLMap.keys())             //Checks to see if a file directory was deleted. Directories shouldn't be deleted.
   {
     if(!currentSQLMap.has(key))
       TERMINATE_FAIL("Missing folder directory: " + key);
@@ -85,14 +85,19 @@ function newSQL(masterSQLMap, currentSQLMap)
 function newSQLFileExistsTest(newSQLMap)
 {
   var newSQLFileExists = false;
+  var newFilesCount = 0;
   for(var key of newSQLMap.keys())
   {
     var files = newSQLMap.get(key);
     if(files.length > 0)
+    {
       newSQLFileExists = true;
+      newFilesCount = newFilesCount + files.length;
+    }
   }
   if(!newSQLFileExists)
     TERMINATE_SUCCESS("No new sql files detected");
+  core.info(newFilesCount + " new sql files detected");
 }
 
 //INPUT: Array of new sql files
@@ -103,7 +108,7 @@ function fileFormatTest(newSQLMap)
   for(var key of newSQLMap.keys())
   {
     var regex = RegExp("v" + key + ".[0-1][0-9].[0-3][0-9]_\\d{2}__.*");    //Generate new regex based on year
-    var files = newSQLMap.get(key);
+    var files = newSQLMap.get(key);           //Array of files
 
     for(var i = 0; i < files.length; i++)
     {
@@ -118,18 +123,21 @@ function fileFormatTest(newSQLMap)
 //INPUT: Array of new SQL files
 //OUTPUT: None
 //Checks if every file has a valid date.
-function validDateTest(newSQL)
+function validDateTest(newSQLMap)
 {
-  NEW_SECTION("Initiate Date Validation Test");
-  for(var i = 0; i < newSQL.length; i++)
+  for(var key of newSQLMap.keys())
   {
-    core.info("Validating date for " + newSQL[i]);
-    const split = newSQL[i].substring(0, 11).split(".");
-    const month = split[1];
-    const day = split[2];
+    var files = newSQLMap.get(key);
+    for(var i = 0; i < files.length; i++)
+    {
+      core.info("Validating date for " + files[i]);
+      var split = files[i].substring(0, 11).split(".");
+      var month = split[1];
+      var day = split[2];
 
-    if(!moment(month + "/" + day + "/" + YEAR, "MM/DD/YYYY", true).isValid())
-      TERMINATE_FAIL(newSQL[i] + " has error. " + month + "/" + day + "/" + YEAR + " is not a valid date");
+      if(!moment(month + "/" + day + "/" + key, "MM/DD/YYYY", true).isValid())
+        TERMINATE_FAIL(files[i] + " has error. " + month + "/" + day + "/" + key + " is not a valid date");
+    }
   }
   core.info("Date validation test is successful!");
 }
@@ -195,5 +203,8 @@ function init()                                         //Initiate test
   //File Format Regex Test
   NEW_SECTION("Initiate Regex File Format Test");
   fileFormatTest(newSQLMap);
+  //Valid Date Test
+  NEW_SECTION("Initiate Date Validation Test");
+  validDateTest(newSQLMap);
 }
 init();                                                 //call initialize method
