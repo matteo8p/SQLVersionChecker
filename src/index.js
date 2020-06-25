@@ -145,21 +145,29 @@ function validDateTest(newSQLMap)
 //INPUT: Array of new SQL files
 //OUTPUT: none
 //Checks that file versions are in correct order relative to master
-function versionTest(newSQL)
+function versionTest(masterSQLMap, newSQLMap)
 {
-  NEW_SECTION("Checking if new sql files are in order");
-
-  for(var i = 0; i < newSQL.length; i++)
+  for(var key of newSQLMap.keys())
   {
-    if(newSQL[i].split("__")[0].localeCompare(master_list[master_list.length - 1].split("__")[0]) <= 0)
+    console.log("Checking versioning in folder " + key)
+    if(!masterSQLMap.has(key))
+      masterSQLMap.set(key, ['']);
+
+    var newfiles = newSQLMap.get(key);
+    var masterfiles = masterSQLMap.get(key);
+    for(var i = 0; i < files.length; i++)
     {
-      TERMINATE_FAIL(newSQL[i] + " has an outdated date or version. File versions must be in order and newer than previous versions in master.");
-    }else
-    {
-      master_list.push(newSQL[i]);
+      console.log("Checking " + newfiles[i]);
+      if(newfiles[i].split("__")[0].localeCompare(masterfiles[masterfiles.length - 1].split("__")[0]) <= 0)
+      {
+        TERMINATE_FAIL(newfiles[i] + " has an outdated date or version. File versions must be in order and newer than previous versions in master.");
+      }else
+      {
+        masterfiles.push(newfiles[i]);
+      }
     }
   }
-  core.info("Version checking is complete!".green);
+  core.info("Version checking is complete!");
 }
 
 //  PROGRAM LOGIC FLOW METHODS
@@ -206,5 +214,10 @@ function init()                                         //Initiate test
   //Valid Date Test
   NEW_SECTION("Initiate Date Validation Test");
   validDateTest(newSQLMap);
+  //Version Testing
+  NEW_SECTION("Checking if new sql files are in order");
+  versionTest(masterSQLMap, newSQLMap));
+
+  TERMINATE_SUCCESS("All tests passed. Have a nice day!");
 }
 init();                                                 //call initialize method
