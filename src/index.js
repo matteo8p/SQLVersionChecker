@@ -46,21 +46,21 @@ function newSQL(masterSQLMap, currentSQLMap)
   let filemap = new Map();
   for(var key of currentSQLMap.keys())          // Iterate through every folder
   {
-     var mastersqlfiles = masterSQLMap.get(key);
-     var currentsqlfiles = currentSQLMap.get(key);
-     var newsqlfiles = [];
+     var mastersqlfilesArray = masterSQLMap.get(key);
+     var currentsqlfilesArray = currentSQLMap.get(key);
+     var newsqlfilesArray = [];
 
-     for(var file in currentSQLMap)
+     for(var file in currentsqlfilesArray)
      {
-       if(!mastersqlfiles.includes(file))
-         newsqlfiles.push(file);
+       if(!mastersqlfilesArray.includes(file))
+         newsqlfilesArray.push(file);
      }
-     filemap.set(key, newsqlfiles);
+     filemap.set(key, newsqlfilesArray);
   }
 
   for(var key of filemap)
   {
-    core.info(key);
+    core.info(filemap.get(key).length + " new files detected in folder " + key);
     core.info(filemap.get(key));
   }
 }
