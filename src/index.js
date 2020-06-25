@@ -76,7 +76,7 @@ function newSQL(masterSQLMap, currentSQLMap)
   return newSQLMap;
 }
 //  ------------------ END INPUT PROCESSING METHODS ------------------
-show()
+
 //  ------------------ TEST METHODS ------------------
 
 function newSQLFileExistsTest(newSQLMap)
@@ -189,13 +189,8 @@ function init()                                         //Initiate test
   NEW_SECTION("Scanning for new SQL files");
   var newSQLMap = newSQL(masterSQLMap, currentSQLMap);
 
-
-  // var newSQL = scanSQLFiles();                                       //Array of new sql files
-  //
-  // if(newSQL.length == 0)
-  //   TERMINATE_SUCCESS("No new SQL files were added");  //No new sql files added. Terminate check as successful
-  //
-  // TERMINATE_SUCCESS("Test Run");
-  // runTests(newSQL);                                     //If there are sql files added, run the other tests
+  //Tests
+  NEW_SECTION("Running New SQL Files Test");
+  newSQLFileExistsTest(newSQLMap);
 }
 init();                                                 //call initialize method
