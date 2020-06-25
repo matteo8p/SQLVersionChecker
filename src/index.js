@@ -31,7 +31,7 @@ function processSQLInput(INPUT)
       fileMap.set(year, sqlfiles);
     }
   }
-  for(var key in fileMap.keys())
+  for(var key of fileMap.keys())
   {
     console.log("Year" + key);
     console.log(fileMap.get(key));
