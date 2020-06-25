@@ -147,15 +147,15 @@ function validDateTest(newSQLMap)
 //Checks that file versions are in correct order relative to master
 function versionTest(masterSQLMap, newSQLMap)
 {
-  for(var key of newSQLMap.keys())
+  for(var key of newSQLMap.keys())                            //iterate through every directory
   {
     console.log("Checking versioning in folder " + key)
-    if(!masterSQLMap.has(key))
+    if(!masterSQLMap.has(key))                                //If there is a newly created directory, create an image in master map
       masterSQLMap.set(key, ['']);
 
-    var newfiles = newSQLMap.get(key);
-    var masterfiles = masterSQLMap.get(key);
-    for(var i = 0; i < files.length; i++)
+    var newfiles = newSQLMap.get(key);                         //New files
+    var masterfiles = masterSQLMap.get(key);                   //Master files
+    for(var i = 0; i < newfiles.length; i++)                  //iterate throught sql file in the directory
     {
       console.log("Checking " + newfiles[i]);
       if(newfiles[i].split("__")[0].localeCompare(masterfiles[masterfiles.length - 1].split("__")[0]) <= 0)
