@@ -129,8 +129,12 @@ function init()                                         //Initiate test
 
   NEW_SECTION("Filtering for new sql files");
   masterSQLMap = processSQLInput(MASTERSQL);
-  console.log("KEYS: ");
-  console.log(masterSQLMap.keys());
+  for(var key in masterSQLMap.keys())
+  {
+    console.log("Year" + key);
+    console.log(masterSQLMap.get(key));
+  }
+
   // var newSQL = scanSQLFiles();                                       //Array of new sql files
   //
   // if(newSQL.length == 0)
