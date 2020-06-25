@@ -63,6 +63,7 @@ function newSQL(masterSQLMap, currentSQLMap)
     core.info(filemap.get(key).length + " new files detected in folder " + key);
     core.info(filemap.get(key));
   }
+  return filemap;
 }
 //  ------------------ END INPUT PROCESSING METHODS ------------------
 
