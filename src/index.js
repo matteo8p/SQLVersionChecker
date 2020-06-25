@@ -29,6 +29,7 @@ function processSQLInput(INPUT)
       {
         for(var j = 1; j < files.length; j++)
         {
+          if(files[j].valueOf() != ''.valueOf())
           sqlfiles.push(files[j]);
         }
       }
