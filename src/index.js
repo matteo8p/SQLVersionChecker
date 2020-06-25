@@ -84,15 +84,15 @@ function newSQL(masterSQLMap, currentSQLMap)
 //Tests whether new sql files were added or not.
 function newSQLFileExistsTest(newSQLMap)
 {
-  var newSQLFileExists = false;
+  var newSQLFileExists = false;                         //Assume no files exist at beginning
   var newFilesCount = 0;
   for(var key of newSQLMap.keys())
   {
     var files = newSQLMap.get(key);
-    if(files.length > 0)
+    if(files.length > 0)                                //This means that new files do exist
     {
-      newSQLFileExists = true;
-      newFilesCount = newFilesCount + files.length;
+      newSQLFileExists = true;                          //Set fileexists to true
+      newFilesCount = newFilesCount + files.length;     //Increment the number of new files discovered
     }
   }
   if(!newSQLFileExists)
@@ -105,12 +105,12 @@ function newSQLFileExistsTest(newSQLMap)
 //Tests file format using regex
 function fileFormatTest(newSQLMap)
 {
-  for(var key of newSQLMap.keys())
+  for(var key of newSQLMap.keys())                  //Iterate through every directory
   {
-    var regex = RegExp("v" + key + ".\\d{2}.\\d{2}_\\d{2}__.*");    //Generate new regex based on year
+    var regex = RegExp("v" + key + ".\\d{2}.\\d{2}_\\d{2}__.*");    //Generate unique regex based on the directory
     var files = newSQLMap.get(key);           //Array of files
 
-    for(var i = 0; i < files.length; i++)
+    for(var i = 0; i < files.length; i++)         //Test every file for regex formatting
     {
       core.info("Checking " + files[i]);
       if(!regex.test(files[i]))
@@ -125,31 +125,31 @@ function fileFormatTest(newSQLMap)
 //Checks if every file has a valid date.
 function validDateTest(newSQLMap)
 {
-  for(var key of newSQLMap.keys())
+  for(var key of newSQLMap.keys())                        //Iterate through every directory
   {
-    var files = newSQLMap.get(key);
-    for(var i = 0; i < files.length; i++)
+    var files = newSQLMap.get(key);                       //Array of file names
+    for(var i = 0; i < files.length; i++)                 //Iterate through file names
     {
       core.info("Validating date for " + files[i]);
-      var split = files[i].substring(0, 11).split(".");
+      var split = files[i].substring(0, 11).split(".");       //Extract date
       var month = split[1];
       var day = split[2];
 
-      if(!moment(month + "/" + day + "/" + key, "MM/DD/YYYY", true).isValid())
+      if(!moment(month + "/" + day + "/" + key, "MM/DD/YYYY", true).isValid())              //Check date validity with moment.
         TERMINATE_FAIL(files[i] + " has error. " + month + "/" + day + "/" + key + " is not a valid date");
     }
   }
   core.info("Date validation test is successful!");
 }
 
-//INPUT: Array of new SQL files
+//INPUT: Maps of sql files from master branch and the new branch
 //OUTPUT: none
 //Checks that file versions are in correct order relative to master
 function versionTest(masterSQLMap, newSQLMap)
 {
   for(var key of newSQLMap.keys())                            //iterate through every directory
   {
-    console.log("Checking versioning in folder " + key)
+    console.log("Year " + key)
     if(!masterSQLMap.has(key))                                //If there is a newly created directory, create an image in master map
       masterSQLMap.set(key, ['']);
 
@@ -194,12 +194,15 @@ function NEW_SECTION(message)
 function init()                                         //Initiate test
 {
   NEW_SECTION("Initiate SQLVersionChecker");
-  //Parse inputs.
+
+  //Parse inputs
+  //Generate a map of sql files in Master
   NEW_SECTION("Generating Map of Master Branch SQL files")
   var masterSQLMap = processSQLInput(MASTERSQL);
+  //Generate a map of sql files in current Branch
   NEW_SECTION("Generating Map of Current Branch SQL files");
   var currentSQLMap = processSQLInput(CURRENTSQL);
-
+  //Compare the two maps to find new files added
   NEW_SECTION("Scanning for new SQL files");
   var newSQLMap = newSQL(masterSQLMap, currentSQLMap);
 
