@@ -31,10 +31,10 @@ function processSQLInput(INPUT)
       fileMap.set(year, sqlfiles);
     }
   }
-  for(var key in masterSQLMap.keys())
+  for(var key in fileMap.keys())
   {
     console.log("Year" + key);
-    console.log(masterSQLMap.get(key));
+    console.log(fileMap.get(key));
   }
   return fileMap;
 }
