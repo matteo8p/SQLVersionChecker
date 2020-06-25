@@ -129,7 +129,11 @@ function init()                                         //Initiate test
 
   NEW_SECTION("Filtering for new sql files");
   masterSQLMap = processSQLInput(MASTERSQL);
-  core.info(masterSQLMap);
+  for(var key in masterSQLMap.keys())
+  {
+    core.info(key);
+    core.info(masterSQLMap.get(key));
+  }
   // var newSQL = scanSQLFiles();                                       //Array of new sql files
   //
   // if(newSQL.length == 0)
