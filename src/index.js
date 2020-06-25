@@ -107,7 +107,7 @@ function fileFormatTest(newSQLMap)
 {
   for(var key of newSQLMap.keys())
   {
-    var regex = RegExp("v" + key + ".[0-1][0-9].[0-3][0-9]_\\d{2}__.*");    //Generate new regex based on year
+    var regex = RegExp("v" + key + ".\\d{2}.\\d{2}_\\d{2}__.*");    //Generate new regex based on year
     var files = newSQLMap.get(key);           //Array of files
 
     for(var i = 0; i < files.length; i++)
