@@ -18,7 +18,7 @@
   },
   "homepage": "https://github.com/NathanNorman/nnorman-test#readme",
   "dependencies": {
-    "@actions/core": "^1.2.4",
+    "@actions/core": "^1.9.1",
     "@actions/github": "^3.0.0",
     "colors": "^1.4.0",
     "moment": "^2.27.0"
